@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Eclair.gd" type="Script" id=1]
-[ext_resource path="res://assets/lights/light_matrix_8_8.png" type="Texture" id=2]
+[ext_resource path="res://assets/light_matrix_8_8.png" type="Texture" id=2]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -52,5 +52,6 @@ gradient = SubResource( 4 )
 
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 2 )
+shadow_enabled = true
 
 [node name="Tween" type="Tween" parent="."]

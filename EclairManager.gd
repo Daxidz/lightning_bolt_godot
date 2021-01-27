@@ -28,7 +28,7 @@ var last_points = []
 
 func _ready():
 	rng.randomize()
-	print(polygon.polygon)
+	# print(polygon.polygon)
 	point_in_polygon()
 	$Timer.connect("timeout", self, "_onTimeout")
 	$Timer.start(INTERVAL_SPAWN)
@@ -47,7 +47,7 @@ func spawn_eclair(pos):
 	eclair.light_power = light_power
 	eclair.base_angle = base_angle
 
-	get_parent().add_child(eclair)
+	get_parent().call_deferred("add_child", eclair)
 
 
 func _input(event):
