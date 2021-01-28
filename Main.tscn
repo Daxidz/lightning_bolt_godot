@@ -4,54 +4,59 @@
 [ext_resource path="res://EclairSpawner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Rayon.tscn" type="PackedScene" id=3]
 
-[sub_resource type="Environment" id=3]
+[sub_resource type="Environment" id=1]
 background_mode = 4
 glow_enabled = true
 glow_intensity = 0.49
-glow_strength = 0.71
-glow_bloom = 0.77
+glow_strength = 0.63
 glow_blend_mode = 1
 glow_hdr_threshold = 2.1
 glow_hdr_scale = 4.0
 
-[sub_resource type="OccluderPolygon2D" id=1]
+[sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( 160.049, 171.529, 161, 172, 159.507, 180.196, 155, 180 )
 
-[sub_resource type="OccluderPolygon2D" id=2]
+[sub_resource type="OccluderPolygon2D" id=3]
 cull_mode = 2
-polygon = PoolVector2Array( 163, 167, 170, 180, 166, 179 )
+polygon = PoolVector2Array( 164, 170, 170, 180, 167, 180 )
 
 [node name="Main" type="Node2D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 3 )
+environment = SubResource( 1 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.662745, 0.662745, 0.662745, 1 )
+color = Color( 0.517647, 0.517647, 0.517647, 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 162, 90 )
+position = Vector2( 160, 90 )
 texture = ExtResource( 1 )
 
 [node name="Rayon" parent="." instance=ExtResource( 3 )]
-position = Vector2( 161, 77 )
+position = Vector2( 157.5, 85 )
 
 [node name="Line2D" parent="Rayon" index="0"]
-position = Vector2( 0.5, 0 )
-points = PoolVector2Array( -0.5, -31, -0.5, 57 )
+points = PoolVector2Array( 1.5, -39, 1.5, 55 )
+default_color = Color( 2.31, 0, 0, 1 )
 
 [node name="Light2D" parent="Rayon" index="1"]
-position = Vector2( 2, 38 )
-scale = Vector2( 1, 0.3325 )
+position = Vector2( 2, 33.25 )
+scale = Vector2( 1, 0.35625 )
 texture_scale = 4.0
-energy = 2.2
+energy = 1.8
+shadow_filter = 1
 
 [node name="Particles2D" parent="Rayon" index="2"]
 position = Vector2( 1, 60 )
-lifetime = 5.0
+z_index = 2
+lifetime = 5.7
+preprocess = 4.0
+randomness = 0.56
+visibility_rect = Rect2( -100, -100, 200, 50 )
 
 [node name="EclairManager" parent="." instance=ExtResource( 2 )]
 INTERVAL_SPAWN = 1.5
+grp_time_rand = 0.204
 MIN_BOLT = 4
 max_branches_randomness = 0.2
 max_branch_lenght = 13.0
@@ -68,6 +73,7 @@ polygon = PoolVector2Array( 4, 46, 62.5281, 12.5842, 112, 25, 118.74, 35.9573, 9
 
 [node name="EclairManager2" parent="." instance=ExtResource( 2 )]
 INTERVAL_SPAWN = 1.5
+grp_time_rand = 0.404
 MIN_BOLT = 4
 max_branches_randomness = 0.33
 max_branch_lenght = 13.0
@@ -86,13 +92,13 @@ polygon = PoolVector2Array( 95, 70, 124, 148, 175, 128, 204, 103, 178.109, 53.93
 INTERVAL_SPAWN = 3.0
 MAX_BOLT = 2
 max_branches = 7
-max_branches_randomness = 0.25
+max_branches_randomness = 0.379
 max_branch_lenght = 45.0
 min_branch_lenght = 25.0
 lifetime = 2.0
 lifetime_randomness = 0.403
 width = 3.5
-light_power = 15.0
+light_power = 20.0
 
 [node name="Polygon2D" parent="EclairMgrCenter" index="0"]
 visible = false
@@ -100,10 +106,12 @@ position = Vector2( 1.55907, -29.1769 )
 polygon = PoolVector2Array( 159, 65, 156, 70, 162, 69 )
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-occluder = SubResource( 1 )
+position = Vector2( -2, 0 )
+occluder = SubResource( 2 )
 
 [node name="LightOccluder2D2" type="LightOccluder2D" parent="."]
-occluder = SubResource( 2 )
+position = Vector2( -2, 0 )
+occluder = SubResource( 3 )
 
 [editable path="Rayon"]
 [editable path="EclairManager"]

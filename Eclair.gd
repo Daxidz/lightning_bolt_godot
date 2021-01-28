@@ -16,6 +16,8 @@ var light_power_scaled: float = 0.0
 
 var rng = RandomNumberGenerator.new()
 onready var tween: Tween = get_node("Tween")
+onready var line: Line2D = get_node("Line2D")
+onready var particles: Particles2D = get_node("Particles2D")
 
 
 func create_line():
@@ -51,28 +53,37 @@ func create_line():
 
 	var light_scale = tot_lenght / (max_branches*max_branch_lenght)
 	$Light2D.scale = Vector2(light_scale, light_scale)* light_power
-	light_power_scaled = 1 * light_scale
+	light_power_scaled = 1.1 * light_scale
 	$Line2D.width = width
+
+func emit_particle(pos: Vector2):
+	particles.position = pos
+	particles.emitting = true
+	
+	 
 		
 func init_tween():
 	var lifetime_rng: float = rng.randf_range(lifetime-lifetime*lifetime_randomness,lifetime)
 	tween.interpolate_property($Light2D, "energy", light_power_scaled, 0.0, lifetime_rng, Tween.TRANS_SINE)
 	# TRANS_QUART donne un effet tres cool
 	# tween.interpolate_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), lifetime_rng *0.9, Tween.TRANS_QUART)
-	tween.interpolate_property(self, 
-		"modulate", 
-		Color(1.0, 1.0, 1.0, 1.0), 
-		Color(1.0, 1.0, 1.0, 0.0), 
-		lifetime_rng *0.9, 
-		Tween.TRANS_SINE)
+	tween.interpolate_property(self, "modulate",  Color(1.0, 1.0, 1.0, 1.0),  Color(1.0, 1.0, 1.0, 0.0),  lifetime_rng *0.9,  Tween.TRANS_SINE)
 
 	tween.connect("tween_all_completed", self, "_onTweenCompleted")
 	tween.start()
+	# sadge hack
+	particles.lifetime = lifetime_rng/2
 
 func _ready():
 	rng.randomize()
 	create_line()
 	init_tween()
+	# Change z_index so it sometimes appears on top of the beam
+	z_index = rng.randi_range(0, 2)
+
+	var idx = max(0, line.points.size()-2)
+	emit_particle(line.points[idx])
+
 
 
 

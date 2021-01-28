@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Eclair.gd" type="Script" id=1]
 [ext_resource path="res://assets/light_matrix_8_8.png" type="Texture" id=2]
@@ -38,6 +38,16 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.290909 ), 0.0, 0.0, 0, 
 offsets = PoolRealArray( 0, 0.152318, 1 )
 colors = PoolColorArray( 1, 0.636719, 0.636719, 1, 1, 0.437086, 0.437086, 1, 1, 1, 1, 1 )
 
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 2
+emission_box_extents = Vector3( 4, 4, 1 )
+flag_disable_z = true
+direction = Vector3( 1, 1, 0 )
+spread = 148.45
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+
 [node name="Eclair" type="Node2D"]
 material = SubResource( 2 )
 script = ExtResource( 1 )
@@ -52,6 +62,14 @@ gradient = SubResource( 4 )
 
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 2 )
+color = Color( 1.1, 1.1, 1.1, 1 )
 shadow_enabled = true
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Particles2D" type="Particles2D" parent="."]
+emitting = false
+amount = 3
+lifetime = 0.2
+one_shot = true
+process_material = SubResource( 5 )

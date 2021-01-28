@@ -3,6 +3,9 @@ extends Node2D
 onready var polygon: Polygon2D = get_node("Polygon2D")
 
 export var INTERVAL_SPAWN: float = 0.5  
+# export(float, 0.0, 1) var interval_randomness: float = 0.0
+export(float, 0.0, 1) var grp_time_rand: float = 0.0
+
 export var MAX_BOLT: int = 5
 export var MIN_BOLT: int = 1
 
@@ -22,7 +25,6 @@ export var active: bool = true
 
 
 
-
 var rng = RandomNumberGenerator.new()
 var last_points = []
 
@@ -36,7 +38,7 @@ func _ready():
 func spawn_eclair(pos):
 	var eclair = preload("res://Eclair.tscn").instance()
 	eclair.global_position = pos
-	# print("spawn_eclair at " + str(pos))
+	print("spawn_eclair at " + str(pos))
 
 	eclair.max_branches = max_branches
 	eclair.max_branches_randomness = max_branches_randomness
@@ -111,7 +113,7 @@ func calcRandomPoint(triangle):
 	return [r_x, r_y]
 
 
-func point_in_polygon():
+func point_in_polygon()-> Vector2:
 	var triangles_pts = Geometry.triangulate_polygon(polygon.polygon)
 	var triangles = []
 	for i in triangles_pts.size()/3:
@@ -129,16 +131,20 @@ func point_in_polygon():
 			idx = i
 			break
 	var point = calcRandomPoint(triangles[idx])
-	point = Vector2(point[0], point[1])
-
-	# Used to compensate if we move the polygon
-	spawn_eclair(point+polygon.position)
+	point= Vector2(point[0], point[1])
+	return point
 
 func spawn_group():
 	var nb_bolt = rng.randi_range(MIN_BOLT, MAX_BOLT)
 
 	for i in nb_bolt:
-		point_in_polygon()
+		var p = point_in_polygon()
+		if (grp_time_rand != 0.0):
+			var lifetime_scaled = lifetime*0.1
+			var time = rng.randf_range(lifetime_scaled-lifetime_scaled*grp_time_rand, lifetime_scaled)
+			yield(get_tree().create_timer(time), "timeout")
+		# Used to compensate if we move the polygon
+		spawn_eclair(p+polygon.position)
 
 func plot_points():
 	update()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Rayon.gd" type="Script" id=1]
 [ext_resource path="res://assets/light_beam.png" type="Texture" id=2]
@@ -42,22 +42,14 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0.878431 )
 [sub_resource type="GradientTexture" id=6]
 gradient = SubResource( 5 )
 
-[sub_resource type="Curve" id=7]
-max_value = 2.0
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 2 ), 2.76051, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=8]
-curve = SubResource( 7 )
-
 [sub_resource type="ParticlesMaterial" id=4]
 emission_shape = 2
 emission_box_extents = Vector3( 5, -10, 1 )
 flag_disable_z = true
 spread = 0.0
-gravity = Vector3( 0, -8, 0 )
+gravity = Vector3( 0, -5, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale_curve = SubResource( 8 )
 color_ramp = SubResource( 6 )
 
 [node name="Rayon" type="Node2D"]
