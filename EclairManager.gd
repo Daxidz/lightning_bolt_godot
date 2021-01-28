@@ -23,8 +23,6 @@ export var light_power: float = 1.5
 
 export var active: bool = true
 
-
-
 var rng = RandomNumberGenerator.new()
 var last_points = []
 
@@ -38,7 +36,7 @@ func _ready():
 func spawn_eclair(pos):
 	var eclair = preload("res://Eclair.tscn").instance()
 	eclair.global_position = pos
-	print("spawn_eclair at " + str(pos))
+	# print("spawn_eclair at " + str(pos))
 
 	eclair.max_branches = max_branches
 	eclair.max_branches_randomness = max_branches_randomness
